@@ -1,21 +1,14 @@
 package com.example.demo.services.mappers;
 
 import com.example.demo.entities.BlogPost;
-import com.example.demo.entities.Comment;
-import com.example.demo.entities.Like;
 import com.example.demo.services.dtos.requests.blogPost.AddBlogPostRequest;
 import com.example.demo.services.dtos.requests.blogPost.UpdateBlogPostRequest;
-import com.example.demo.services.dtos.responses.blogPost.AddBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetAllBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetByIdBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.UpdateBlogPostResponse;
+import com.example.demo.services.dtos.responses.blogPost.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface BlogPostMapper {
@@ -33,11 +26,15 @@ public interface BlogPostMapper {
     @Mapping(target = "authorId", source = "author.id")
     UpdateBlogPostResponse blogPostToUpdateBlogPostResponse(BlogPost blogPost);
 
-    @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "authorName", source = "author.username")
     GetAllBlogPostResponse blogPostToGetAllBlogPostResponse(BlogPost blogPost);
 
     @Mapping(target = "authorId", source = "author.id")
     GetByIdBlogPostResponse blogPostToGetByIdBlogPostResponse(BlogPost blogPost);
 
-
+    AuthorOrDateTimeFilteredBlogPost blogPostToAuthorOrDateTimeFilteredBlogPost(BlogPost blogPost);
+    @Mapping(target = "authorName", source = "author.username")
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "categoryName", source = "category.name")
+    GetByCategoryNameBlogPostResponse blogPostToGetByCategoryNameBlogPostResponse(BlogPost blogPost);
 }

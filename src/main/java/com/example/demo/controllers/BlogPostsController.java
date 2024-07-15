@@ -1,15 +1,15 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.BlogPost;
+
+import com.example.demo.core.utils.result.DataResult;
 import com.example.demo.services.abstracts.BlogPostService;
 import com.example.demo.services.dtos.requests.blogPost.AddBlogPostRequest;
 import com.example.demo.services.dtos.requests.blogPost.UpdateBlogPostRequest;
-import com.example.demo.services.dtos.responses.blogPost.AddBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetAllBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetByIdBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.UpdateBlogPostResponse;
+import com.example.demo.services.dtos.responses.blogPost.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,19 +22,32 @@ public class BlogPostsController {
     }
 
     @GetMapping("/getAll")
-    public List<GetAllBlogPostResponse> getAllBlogPosts() {
+    public DataResult<List<GetAllBlogPostResponse>> getAllBlogPosts() throws InterruptedException {
+        //Thread.sleep(5000);
         return blogPostService.getAllBlogPosts();
     }
     @GetMapping("/getById")
-    public GetByIdBlogPostResponse getBlogPostById(@PathVariable int id) {
+    public DataResult<GetByIdBlogPostResponse> getBlogPostById(@PathVariable int id) {
         return blogPostService.getBlogPostById(id);
     }
+    @GetMapping("/getByAuthorOrDateTime")
+    public DataResult<List<AuthorOrDateTimeFilteredBlogPost>> findBlogPosts(@RequestParam(required = false) String authorUsername, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate) {
+        return blogPostService.findBlogPosts(authorUsername, releaseDate);
+    }
+    @GetMapping("/getByCategoryName/{categoryName}")
+    public DataResult<List<GetByCategoryNameBlogPostResponse>> getBlogPostsByCategoryName(@PathVariable String categoryName) {
+        return blogPostService.findByCategory_NameIgnoreCase(categoryName);
+    }
+    @GetMapping("/getAllByPage/{pageNo}/{pageSize}")
+    public DataResult<List<GetAllBlogPostResponse>> getAllBlogPosts(@PathVariable int pageNo, @PathVariable int pageSize) {
+        return blogPostService.getAllBlogPosts(pageNo, pageSize);
+    }
     @PostMapping("/create")
-    public AddBlogPostResponse createBlogPost(@RequestBody AddBlogPostRequest request) {
+    public DataResult<AddBlogPostResponse> createBlogPost(@RequestBody AddBlogPostRequest request) {
         return blogPostService.createBlogPost(request);
     }
     @PutMapping("/update")
-    public UpdateBlogPostResponse updateBlogPost(@RequestBody UpdateBlogPostRequest request) {
+    public DataResult<UpdateBlogPostResponse> updateBlogPost(@RequestBody UpdateBlogPostRequest request) {
         return blogPostService.updateBlogPost(request);
     }
     @DeleteMapping("/delete")

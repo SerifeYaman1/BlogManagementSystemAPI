@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tobeto</groupId>
-	<artifactId>hotelReservationSystem</artifactId>
+	<artifactId>BlogManagementSystemAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hotelReservationSystem</name>
+	<name>BlogManagementSystemAPI</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
@@ -33,7 +33,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-framework-bom</artifactId>
+			<version>6.1.9</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -93,11 +99,15 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>7.0.0.Final</version>
 		</dependency>
-
 		<!--notification-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>3.2.6</version>
 		</dependency>
 	</dependencies>
 

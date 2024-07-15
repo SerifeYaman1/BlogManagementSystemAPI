@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class BlogPost {
     private String title;
 
     @Column(name="release_date")
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     @Column(name="content_text")
     private String content;
@@ -47,4 +48,8 @@ public class BlogPost {
 
     @Column(name="comments_count")
     private int commentsCount;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 }

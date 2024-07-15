@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class AddBlogPostResponse {
     private int id;
     private String title;
     private String content;
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
     private int likesCount;
     private int commentsCount;
     private int authorId;

@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.services.abstracts.UserService;
-import com.example.demo.services.dtos.requests.user.AddUserRequest;
+import com.example.demo.services.dtos.requests.user.RegisterRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.AddUserResponse;
 import com.example.demo.services.dtos.responses.user.GetAllUserResponse;
@@ -25,10 +25,6 @@ public class UsersContoller {
     @GetMapping("getById/{id}")
     public GetByIdUserResponse getUserById(@PathVariable int id){
         return userService.getUserById(id);
-    }
-    @PostMapping("create")
-    public AddUserResponse createUser(@RequestBody AddUserRequest request){
-        return userService.createUser(request);
     }
     @PutMapping("update")
     public UpdateUserResponse updateUser(@RequestBody UpdateUserRequest request){

@@ -1,21 +1,32 @@
 package com.example.demo.services.abstracts;
 
+import com.example.demo.core.utils.result.DataResult;
+import com.example.demo.core.utils.result.Result;
 import com.example.demo.services.dtos.requests.blogPost.AddBlogPostRequest;
 import com.example.demo.services.dtos.requests.blogPost.UpdateBlogPostRequest;
-import com.example.demo.services.dtos.responses.blogPost.AddBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetAllBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.GetByIdBlogPostResponse;
-import com.example.demo.services.dtos.responses.blogPost.UpdateBlogPostResponse;
+import com.example.demo.services.dtos.responses.blogPost.*;
 
+import java.awt.print.Pageable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public interface BlogPostService {
 
-    AddBlogPostResponse createBlogPost(AddBlogPostRequest request);
+    DataResult<AddBlogPostResponse> createBlogPost(AddBlogPostRequest request);
 
-    UpdateBlogPostResponse updateBlogPost(UpdateBlogPostRequest request);
+    DataResult<UpdateBlogPostResponse> updateBlogPost(UpdateBlogPostRequest request);
 
-    List<GetAllBlogPostResponse> getAllBlogPosts();
-    void deleteBlogPost(int id);
-    GetByIdBlogPostResponse getBlogPostById(int id);
+    DataResult<List<GetAllBlogPostResponse>> getAllBlogPosts();
+    DataResult<List<GetAllBlogPostResponse>> getAllBlogPosts(int pageNo, int pageSize);
+
+    Result deleteBlogPost(int id);
+
+    DataResult<GetByIdBlogPostResponse> getBlogPostById(int id);
+
+    DataResult<List<AuthorOrDateTimeFilteredBlogPost>> findBlogPosts(String authorUsername, LocalDate releaseDate);
+
+    DataResult<List<GetByCategoryNameBlogPostResponse>> findByCategory_NameIgnoreCase(String categoryName);
 }
+

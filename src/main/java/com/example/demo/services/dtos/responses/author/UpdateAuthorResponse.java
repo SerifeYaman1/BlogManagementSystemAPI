@@ -14,5 +14,5 @@ public class UpdateAuthorResponse {
     private String lastName;
     private String username;
     private String email;
-    private String password;
+    private String password_hash;
 }

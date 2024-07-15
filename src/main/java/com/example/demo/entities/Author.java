@@ -1,10 +1,8 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.util.List;
 
@@ -25,10 +23,12 @@ public class Author {
     private String lastName;
     @Column(name="username" , unique = true)
     private String username;
+    @NotBlank
+    @NonNull
     @Column(name="email", unique = true)
     private String email;
     @Column(name="password_hash")
-    private String password;
+    private String password_hash;
     @OneToMany(mappedBy = "author")
     private List<BlogPost> blogPosts;
 }

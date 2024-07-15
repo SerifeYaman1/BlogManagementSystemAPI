@@ -5,19 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
-public class UpdateBlogPostResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+public class GetByCategoryNameBlogPostResponse {
     private int id;
     private String title;
     private String content;
+    private String authorName;
     private LocalDate releaseDate;
     private int likesCount;
     private int commentsCount;
-    private int authorId;
+    private int categoryId;
+    private String categoryName;
 }
