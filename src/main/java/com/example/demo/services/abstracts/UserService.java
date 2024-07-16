@@ -1,5 +1,6 @@
 package com.example.demo.services.abstracts;
 
+import com.example.demo.entities.User;
 import com.example.demo.services.dtos.requests.user.RegisterRequest;
 import com.example.demo.services.dtos.requests.user.UpdateUserRequest;
 import com.example.demo.services.dtos.responses.user.AddUserResponse;
@@ -15,4 +16,5 @@ public interface UserService extends UserDetailsService {
     List<GetAllUserResponse> getAllUsers();
     void deleteUser(int id);
     GetByIdUserResponse getUserById(int id);
+    void add(User user);
 }

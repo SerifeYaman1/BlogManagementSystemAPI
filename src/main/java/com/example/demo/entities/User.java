@@ -1,16 +1,11 @@
 package com.example.demo.entities;
 
-import com.example.demo.entities.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -18,6 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 //User entitisi Spring security ile entegre bir şekilde çalışabilmesi için UserDetails sınıfını implemente ediliyor.
 public class User implements UserDetails {
 
@@ -44,14 +40,10 @@ public class User implements UserDetails {
     @JoinTable(name = "roles",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private List<Role> role;
+    private List<Role> authorities;
 
     //Rol sistemi burada yönetilir.
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-    @Override
+    /*@Override
     public String getPassword() {
         return password;
     }
@@ -59,6 +51,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
+    */
     //Kullanılmayacaksa true olarak kullanılır.
     @Override
     public boolean isAccountNonExpired() {

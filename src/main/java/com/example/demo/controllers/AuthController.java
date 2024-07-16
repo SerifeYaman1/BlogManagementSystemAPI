@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import com.example.demo.core.utils.result.DataResult;
+import com.example.demo.core.utils.result.SuccessDataResult;
 import com.example.demo.services.abstracts.AuthService;
 import com.example.demo.services.dtos.requests.user.LoginRequest;
 import com.example.demo.services.dtos.requests.user.RegisterRequest;
@@ -21,7 +23,7 @@ public class AuthController {
         authService.register(request);
     }
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request){
+    public DataResult<String> login(@RequestBody LoginRequest request){
         return authService.login(request);
     }
 }

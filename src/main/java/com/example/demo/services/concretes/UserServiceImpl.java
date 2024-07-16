@@ -50,7 +50,9 @@ public class UserServiceImpl implements UserService {
      //Veritabanından çekeceğimiz için userRepository'i entegre ederiz.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
-        //user benim için emaildir.
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("No user found!"));
+    }
+    public void add(User user) {
+        userRepository.save(user);
     }
 }

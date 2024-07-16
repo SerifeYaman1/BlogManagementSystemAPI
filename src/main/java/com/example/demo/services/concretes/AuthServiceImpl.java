@@ -1,48 +1,47 @@
 package com.example.demo.services.concretes;
 
 import com.example.demo.core.services.JwtService;
+import com.example.demo.core.utils.result.DataResult;
+import com.example.demo.core.utils.result.ErrorDataResult;
+import com.example.demo.core.utils.result.SuccessDataResult;
 import com.example.demo.entities.User;
-import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.abstracts.AuthService;
+import com.example.demo.services.abstracts.UserService;
 import com.example.demo.services.dtos.requests.user.LoginRequest;
 import com.example.demo.services.dtos.requests.user.RegisterRequest;
-import com.example.demo.services.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
-
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
-    private  final PasswordEncoder passwordEncoder;
-    private final  AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(RegisterRequest request) {
-        User user= UserMapper.INSTANCE.registerRequestToUser(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    public DataResult<String> login(LoginRequest request) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        if (authentication.isAuthenticated()) {
+            return new SuccessDataResult<>(jwtService.generateToken(request.getUsername()),"Giriş yapıldı");
+        }
+        return new ErrorDataResult<>("Kullanıcı adı ya da şifre yanlış");
     }
     @Override
-    public String login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı: " + request.getEmail()));
-        //AuthenticationManager sayesinde kullanıcının verdiği sifreyi kontrol ederek karşılaştırma yapacak.
-        Authentication authentication=
-                authenticationManager
-                        .authenticate(
-                                new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-                        );
-        if(!authentication.isAuthenticated()){
-            throw new RuntimeException("Şifre ya da email yanlış");
-        }
-        return jwtService.generateToken(user.getUsername(),null);
+    public void register(RegisterRequest request) {
+        User user = User.builder()
+                .username(request.getUsername())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .authorities(request.getRoles())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
+        userService.add(user);
     }
 }
